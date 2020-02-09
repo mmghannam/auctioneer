@@ -1,0 +1,229 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{pgf, tikz}
+\usepackage{xspace, units}
+\usepackage{typearea}
+\allowdisplaybreaks
+
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{tabu}
+\usepackage{float}
+\usepackage{enumitem}
+\graphicspath{ {./Figures/} }
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{observation}[theorem]{Observation}
+
+\newcommand{\NN}{\ensuremath{\mathbb{N}}}
+\newcommand{\ZZ}{\ensuremath{\mathbb{Z}}}
+\newcommand{\RR}{\ensuremath{\mathbb{R}}}
+
+\renewcommand{\Pr}[1]{\mbox{\rm\bf Pr}\left[#1\right]}
+\newcommand{\Ex}[1]{\mbox{\rm\bf E}\left[#1\right]}
+
+%strategies commands
+\newcommand{\synergist}{\emph{synergist }}
+\newcommand{\holist}{\emph{holist }}
+\newcommand{\random}{\emph{random }}
+\newcommand{\usnews}{\emph{usnews }}
+\newcommand{\joker}{\emph{joker }}
+\newcommand{\modest}{\emph{modest }}
+\newcommand{\optimized}{\emph{optimized }}
+\newcommand{\harsh}{\emph{harsh }}
+\newcommand{\teamer}{\emph{teamer }}
+\newcommand{\reasonable}{\emph{reasonable }}
+\newcommand{\smweinberg}{\emph{smweinberg }}
+\newcommand{\levelzero}{\emph{levelzero }}
+\newcommand{\imitator}{\emph{imitator }}
+\newcommand{\expector}{\emph{expector }}
+\newcommand{\adapter}{\emph{adapter }}
+\newcommand{\truthful}{\emph{truthful }}
+\newcommand{\proportional}{\emph{proportional }}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{remark}
+\newtheorem*{justification}{Justification}
+
+\setlength{\parindent}{0pt}
+
+\author{Mohammed Ghannam}
+
+\title{Advanced Algorithms Lab: Assignment 3}
+
+\begin{document}
+
+\maketitle
+
+\section{Part A}
+For $ T=1 $, assuming we overbid and win a slot then: \\ 
+- If the second highest bid (of the bids that are less than ours) is more than our value then the revenue is smaller than the payment and our budget will then decrease. Therefore, it is better to bid nothing and save our budget.\\
+- And if the second highest bid is less than our value, then our result does not get better by overbidding. \\
+Also, if we did not win any slot the result is the same if we had bid less. \\
+
+
+For $ T=10000 $ it might make sense to overbid in the early rounds as to drive players to bid higher and lose their budget earlier in the game giving the player a higher chance to win better ad slots. 
+
+\section{Part B}
+If everyone played truthfully it may not be an equilibrium as one of the players who won the positions 4 to 9 can choose to bid less and win the respective lower slot and get the same revenue and the payment is less.
+
+\section{Part C}
+\subsection{proportional}
+This strategy bids a factor of the value. This factor is increases as the number of past rounds increases.
+
+\subsection{adapter}
+This strategy tries to learn the least factor of the value it can bid and still win. This is implemented by increasing the factor in case the player did not win any slot and decreasing if he won any slot.
+
+\subsection{expector}
+The strategy tries to win the 9th position by bidding the average bid that won that position in the past.
+
+\section{Evaluation Techniques}
+\subsection{N on N}
+A number $ N $ instances of each strategy $ A $, is tested against all other strategies, but one strategy at a time. Then, a score is given to that strategy $ A $ according to the sum of the difference between the average performance of $ A $ and the average performance of the other strategy $ X $. i.e.,
+\begin{equation}
+\texttt{score}_{NonN}(A) = \sum_{X \in \texttt{strategies} - \{A\}}\texttt{Performance}(A) - \texttt{Performance}(X)
+\end{equation}
+
+
+\subsubsection*{Results}
+\textbf{$N = 6 $}:
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		\expector &  -4306.525174471466 \\
+		\hline
+		\adapter &  2101.7029639141388 \\
+		\hline
+		\truthful &  -96.44870788343383 \\
+		\hline
+		\proportional &  2277.1687745620893 \\
+		\hline
+	\end{tabular}
+	\caption{$ numTrials=100$}
+\end{figure}
+
+\subsection{Homogeneous}
+Each strategy is given a score equal to the average performance it gets when all the instances follow the same strategy.
+
+\subsubsection*{Results}
+Obtained by running 50 instances for each strategy.
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		\expector &  777.8973639154184 \\
+		\hline
+		\adapter &  1364.3053141967557 \\
+		\hline
+		\truthful &  1088.204305895768 \\
+		\hline
+		\proportional &  1690.8991342448076 \\
+		\hline
+	\end{tabular}
+	\caption{$ numTrials=100$}
+\end{figure}
+
+\subsection{Survival of the Fittest}
+It starts with a population of $ n_{start} $ instances from each strategy. Then, the worst performing instances (of a number equal to a percentage $ p_{worst} $ of the population) are discarded. The process repeats for multiple \emph{"generations"} until all strategies are discarded. Each strategy is then given a score of the number of generations it survived.
+
+\subsubsection*{Results}
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		strategy & generations \\ [0.5ex] 
+		\hline
+		\adapter &  21 \\
+		\hline
+		\proportional &  15 \\
+		\hline
+		\truthful &  7 \\
+		\hline
+		\expector &  3 \\
+		\hline
+	\end{tabular}
+	\caption{$ numTrials=100, n_{start}=10, p_{worst} = 10\%$}
+\end{figure}
+
+\subsection{All Combinations test}
+Given a set of strategies. A tournament is held on all subsets of this set. Then a score is given to each strategy that is equal to the sum of scores it has gotten in all subsets of size $ k $. 
+
+\subsubsection*{Results}
+\textbf{$k = 2 $}:
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		strategy & score \\ [0.5ex] 
+		  \hline
+		 \truthful  & 4496.682055457923 \\
+		 \hline
+		 \adapter  & 6781.635094028401 \\
+		 \hline
+		 \proportional  & 6511.516345853237 \\
+		 \hline
+		 \expector  & 1588.7648844472787 \\
+		 \hline
+	\end{tabular}
+	\caption{$ numTrials=100$}
+\end{figure}
+
+\pagebreak
+\textbf{$k = 3 $}:
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		strategy & score \\ [0.5ex] 
+		  \hline
+		 \truthful  & 3735.7173029346404 \\
+		 \hline
+		 \adapter  & 6064.405691944758 \\
+		 \hline
+		 \proportional  & 5788.048733307711 \\
+		 \hline
+		 \expector  & 1500.0 \\
+		 \hline
+	\end{tabular}
+	\caption{$ numTrials=100$}
+\end{figure}
+
+
+\textbf{$k = 4 $}:
+\begin{figure}[H]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		strategy & score \\ [0.5ex] 
+		 \hline
+		 \truthful  & 1202.565884225385 \\
+		 \hline
+		 \adapter  & 1723.4835684247712 \\
+		 \hline
+		 \proportional  & 1764.3588683481507 \\
+		 \hline
+		 \expector  & 500.0 \\
+		 \hline
+	\end{tabular}
+	\caption{$ numTrials=100$}
+\end{figure}
+
+\end{document}
+
+

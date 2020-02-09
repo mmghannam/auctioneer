@@ -1,0 +1,71 @@
+\### & 6 on 6 Test: \\
+\hline
+\### & Strategy score \\
+\hline
+\expector &  -4306.525174471466 \\
+\hline
+\adapter &  2101.7029639141388 \\
+\hline
+\truthful &  -96.44870788343383 \\
+\hline
+\proportional &  2277.1687745620893 \\
+\hline
+\
+ & \### & Homogeneous Test: \\
+ \hline
+\### & Strategy score \\
+\hline
+\expector &  777.8973639154184 \\
+\hline
+\adapter &  1364.3053141967557 \\
+\hline
+\truthful &  1088.204305895768 \\
+\hline
+\proportional &  1690.8991342448076 \\
+\hline
+\
+ & \Total  & score for sublists of size 2 \\
+ \hline
+\truthful  & 4496.682055457923 \\
+\hline
+\adapter  & 6781.635094028401 \\
+\hline
+\proportional  & 6511.516345853237 \\
+\hline
+\expector  & 1588.7648844472787 \\
+\hline
+
+ & \Total  & score for sublists of size 3 \\
+ \hline
+\truthful  & 3735.7173029346404 \\
+\hline
+\adapter  & 6064.405691944758 \\
+\hline
+\proportional  & 5788.048733307711 \\
+\hline
+\expector  & 1500.0 \\
+\hline
+\
+ & \Total  & score for sublists of size 4 \\
+ \hline
+\truthful  & 1202.565884225385 \\
+\hline
+\adapter  & 1723.4835684247712 \\
+\hline
+\proportional  & 1764.3588683481507 \\
+\hline
+\expector  & 500.0 \\
+\hline
+\
+ & \### & Survival of the Fittest Test: \\
+ \hline
+\strategy &  generations: \\
+\hline
+\adapter &  21 \\
+\hline
+\proportional &  15 \\
+\hline
+\truthful &  7 \\
+\hline
+\expector &  3 \\
+\hline
