@@ -4,8 +4,8 @@
 // Modified by Andrew Wonnacott
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -164,9 +164,14 @@ public class Auctioneer extends Tournament<Bidder, AuctionConfig> {
 
 
     private static void printScores(List<String> strategyNames, double[] res, Integer N) {
+        javafx.util.Pair<String, Double> instanceResults[] = new javafx.util.Pair[strategyNames.size()];
+        for (int i = 0; i < strategyNames.size(); i++) {
+            instanceResults[i] = new javafx.util.Pair<>(strategyNames.get(i), res[i]);
+        }
+        Arrays.sort(instanceResults, (p1, p2) -> p2.getValue().compareTo(p1.getValue()));
         System.out.println("netID, score");
         for (int i = 0; i < N; ++i) {
-            System.out.println(strategyNames.get(i).substring(7) + ": " + Double.toString(res[i]));
+            System.out.println(instanceResults[i].getKey().substring(7) + ": " + Double.toString(instanceResults[i].getValue()));
         }
     }
 
