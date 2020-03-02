@@ -135,14 +135,12 @@ public class Auctioneer extends Tournament<Bidder, AuctionConfig> {
             }
 
             // save budgets and utilities
-            data.days[t].budgets = budget;
-            data.days[t].utilities = utility;
+            data.days[t].budgets = Arrays.copyOf(budget, budget.length);
+            data.days[t].utilities = Arrays.copyOf(utility, utility.length);
         }
 
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create(); // use this for pretty print
-        Gson gson = new Gson();
         try {
-            gson.toJson(data, new FileWriter("x.json"));
+            data.toCSV("x");
         } catch (IOException e) {
             e.printStackTrace();
         }
